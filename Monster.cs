@@ -8,9 +8,17 @@ namespace GameAssignment
 {
     public class Monster : Hero
     {
-        public Monster(string name, double strength, double defence, double maxHealth ) : base(name, strength, defence, maxHealth) 
+        private string _flavorText;
+        public string FlavorText
         {
+            get { return _flavorText; }
+            set { _flavorText = value; }
+        }
 
+        public Monster(string name, double strength, double defence, double maxHealth, string flavorText ) : base(name, strength, defence, maxHealth) 
+        {
+            Name = name;
+            FlavorText = flavorText;
         }
     }
 }

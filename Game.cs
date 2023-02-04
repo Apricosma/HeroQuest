@@ -10,17 +10,29 @@ namespace GameAssignment
 {
     public static class Game
     {
+        private static string slimeText = "Bl-...Bloop..!";
+        private static string goblinText = "A shy little goblin girl blocks your path, sporting a rather prickly dagger.\n" +
+            "Despite her meager appearance, she attacks! 'Hhhnnyaa!!'";
+        private static string koboldText = "A heavily armored Kobol woman confidently charges at you, speaking not a word as she raises her" +
+            "mace to strike!";
+        private static string orcText = "A frighteningly large orc wielding a ghoulish axe spots you and stands up tall," +
+            " proudly puffing his chest (you're screwed)";
+        private static string scrungusText = "Wh... What the heck is that thing?";
+
         private static HashSet<Weapon> Weapons = new HashSet<Weapon>();
         private static HashSet<Armor> Armors = new HashSet<Armor>();
         private static HashSet<Monster> Monsters = new HashSet<Monster>
         {
-            new Monster("Bloopy Slime", 0.8, 0.8, 6),
-            new Monster("Shy Goblin", 1.2, 0.4, 10),
-            new Monster("Sturdy Kobold", 1.6, 3, 18)
+            new Monster("Bloopy Slime", 2.5, 0.8, 13, slimeText),
+            new Monster("Shy Goblin", 3, 0.4, 10, goblinText),
+            new Monster("Sturdy Kobold", 4, 3, 18, koboldText),
+            new Monster("Ferocious Orc", 6, 0.5, 22, orcText),
+            new Monster("A skrungus", 2, 4, 20, scrungusText)
+
         };
 
         private static Hero hero = new Hero(null, 4, 2, 10);
-        public static Weapon TerribadDagger = new Weapon("Terribad Dagger", 1.5);
+        public static Weapon TerribadDagger = new Weapon("Terribad Dagger", 1);
         public static Armor MiniatureShield = new Armor("Miniature Shield", 0.4, 1.2);    
 
         private static void setHeroName()
@@ -90,7 +102,9 @@ namespace GameAssignment
                         DisplayInventoryMenu();
                         break;
                     case 3:
-                        Console.WriteLine("Good luck, {hero.HeroName}");
+                        Console.WriteLine($"Good luck, {hero.Name}");
+                        Fight fight = new Fight(hero, GetRandomMonster());
+                        fight.Fighting();
                         break;
                         
                 }

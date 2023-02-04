@@ -60,6 +60,16 @@ namespace GameAssignment
             _equippedArmor = armor;
         }
 
+        public string GetStats()
+        {
+            return $"Power: {BaseStrength} | Defence: {BaseDefence} | Current health: {CurrentHealth}/{MaxHealth}";
+        }
+
+        public string GetInventory()
+        {
+            return $"Weapon: {EquippedWeapon}, Armor: {EquippedArmor}";
+        }
+
         public Hero(string name, double strength, double defence, double maxHealth)
         {
             Name = null;
