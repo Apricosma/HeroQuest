@@ -9,69 +9,69 @@ namespace GameAssignment
     public class Fight
     {
         private Hero _hero { get; set; }
-        private Monster _monster { get; set; }
+        public Monster Monster { get; set; }
 
         public Fight(Hero hero, Monster monster)
         {
             _hero = hero;
-            _monster = monster;
+            Monster = monster;
         }
 
-        public void Fighting()
+        public int Fighting()
         {
-            Console.WriteLine($"You encounter a {_monster.Name}! (power: {_monster.BaseStrength}, defense: {_monster.BaseDefence})");
-            Console.WriteLine(_monster.FlavorText);
+            Console.WriteLine($"You encounter a {Monster.Name}! (power: {Monster.BaseStrength}, defense: {Monster.BaseDefence})");
+            Console.WriteLine(Monster.FlavorText);
             Console.WriteLine();
-            while (_hero.CurrentHealth > 0 && _monster.CurrentHealth > 0) 
+            while (_hero.CurrentHealth > 0 && Monster.CurrentHealth > 0) 
             {
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 HeroTurn();
-                Console.WriteLine($"{_hero.Name} HP: {_hero.CurrentHealth} | {_monster.Name} HP: {_monster.CurrentHealth}");
-                if (_monster.CurrentHealth <= 0)
+                Console.WriteLine($"{_hero.Name} HP: {_hero.CurrentHealth} | {Monster.Name} HP: {Monster.CurrentHealth}");
+                if (Monster.CurrentHealth <= 0)
                 {
                     Win();
-                    return;
+                    return 1;
                 }
                 Console.WriteLine();
 
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 MonsterTurn();
-                Console.WriteLine($"{_hero.Name} HP: {_hero.CurrentHealth} | {_monster.Name} HP: {_monster.CurrentHealth}");
+                Console.WriteLine($"{_hero.Name} HP: {_hero.CurrentHealth} | {Monster.Name} HP: {Monster.CurrentHealth}");
                 if (_hero.CurrentHealth <= 0)
                 {
                     Lose();
-                    return;
+                    return -1;
                 }
                 Console.WriteLine();
             }
-
+            return -1;
         }
 
         private void HeroTurn()
         {
-            double damage = Math.Round(_hero.BaseStrength + _hero.EquippedWeapon.Power - _monster.BaseDefence, 2);
+            double damage = Math.Round(_hero.BaseStrength + _hero.EquippedWeapon.Power - Monster.BaseDefence, 2);
             damage *= RandomMultiplier();
             
 
             if (damage > 0)
             {
-                Console.WriteLine($"{_hero.Name} deals {damage} to {_monster.Name}");
-                _monster.CurrentHealth -= damage;
+                Console.WriteLine($"{_hero.Name} deals {damage} to {Monster.Name}");
+                Monster.CurrentHealth -= damage;
             } else
             {
-                Console.WriteLine($"You deal zero damage to {_monster.Name}!");
+                Console.WriteLine($"You deal zero damage to {Monster.Name}!");
             }
         }
 
         private void MonsterTurn()
         {
-            double damage = Math.Round(_monster.BaseStrength - (_hero.BaseDefence + _hero.EquippedArmor.Power), 2);
+            double damage = Math.Round(Monster.BaseStrength - (_hero.BaseDefence + _hero.EquippedArmor.Power), 2);
             damage *= RandomMultiplier();
-            Console.WriteLine($"{_monster.Name} deals {damage} to {_hero.Name}");
+            Console.WriteLine($"{Monster.Name} deals {damage} to {_hero.Name}");
 
             if (damage > 0)
             {
-                Console.WriteLine($"{_hero.Name} deals {damage} to {_monster.Name}");
+                Console.WriteLine($"{_hero.Name} deals {damage} to {Monster.Name}");
                 _hero.CurrentHealth -= damage;
             } else
             {
@@ -96,12 +96,12 @@ namespace GameAssignment
         private double RandomMultiplier()
         {
             Random random = new Random();
-            return Math.Round(random.NextDouble(), 2);
+            return Math.Round(random.NextDouble(), 3);
         }
 
         private void ResetHealth()
         {
-            _monster.CurrentHealth = _monster.MaxHealth;
+            Monster.CurrentHealth = Monster.MaxHealth;
             _hero.CurrentHealth = _hero.MaxHealth;
         }
     }

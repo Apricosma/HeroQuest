@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace GameAssignment
         private static string slimeText = "Bl-...Bloop..!";
         private static string goblinText = "A shy little goblin girl blocks your path, sporting a rather prickly dagger.\n" +
             "Despite her meager appearance, she attacks! 'Hhhnnyaa!!'";
-        private static string koboldText = "A heavily armored Kobol woman confidently charges at you, speaking not a word as she raises her" +
+        private static string koboldText = "A heavily armored Kobold woman confidently charges at you, speaking not a word as she raises her" +
             "mace to strike!";
         private static string orcText = "A frighteningly large orc wielding a ghoulish axe spots you and stands up tall," +
             " proudly puffing his chest (you're screwed)";
@@ -21,15 +22,18 @@ namespace GameAssignment
 
         private static HashSet<Weapon> Weapons = new HashSet<Weapon>();
         private static HashSet<Armor> Armors = new HashSet<Armor>();
+        private static Dictionary<int, bool> Fights = new Dictionary<int, bool>();
         private static HashSet<Monster> Monsters = new HashSet<Monster>
         {
             new Monster("Bloopy Slime", 2.5, 0.8, 13, slimeText),
             new Monster("Shy Goblin", 3, 0.4, 10, goblinText),
             new Monster("Sturdy Kobold", 4, 3, 18, koboldText),
             new Monster("Ferocious Orc", 6, 0.5, 22, orcText),
-            new Monster("A skrungus", 2, 4, 20, scrungusText)
+            new Monster("A scrungus", 2, 4, 20, scrungusText)
 
         };
+
+        private static int _fightCounter = 1;
 
         private static Hero hero = new Hero(null, 4, 2, 10);
         public static Weapon TerribadDagger = new Weapon("Terribad Dagger", 1);
@@ -96,6 +100,7 @@ namespace GameAssignment
                 {
                     case 1:
                         // statistics
+                        Console.WriteLine(Stats());
                         break;
                     case 2:
                         // inventory
@@ -104,7 +109,22 @@ namespace GameAssignment
                     case 3:
                         Console.WriteLine($"Good luck, {hero.Name}");
                         Fight fight = new Fight(hero, GetRandomMonster());
-                        fight.Fighting();
+
+                        // win
+                        if(fight.Fighting() == 1)
+                        {
+                            Weapon drop = fight.Monster.GetRandomWeaponDrop();
+                            Console.WriteLine($"You recieved {drop.Name}. It has been added to your inventory");
+                            Weapons.Add(drop);
+
+                            Fights.Add(_fightCounter, true);
+                            _fightCounter++;
+                        } else
+                        {
+                            Fights.Add(_fightCounter, false);
+                            _fightCounter++;
+                        }
+
                         break;
                         
                 }
@@ -247,6 +267,50 @@ namespace GameAssignment
 
             Monster randomMonster = Monsters.ElementAt(index);
             return randomMonster;
+        }
+
+        private static int GetFights()
+        {
+            int count = 0;
+            foreach(KeyValuePair<int, bool> f in Fights)
+            {
+                count++;
+            }
+
+            return count;
+        }
+
+        private static int GetWins()
+        {
+            int wins = 0;
+            foreach(KeyValuePair<int, bool> w in Fights)
+            {
+                if (w.Value)
+                {
+                    wins++;
+                }
+            }
+
+            return wins;
+        }
+
+        private static int GetLosses()
+        {
+            int losses = 0;
+            foreach(KeyValuePair<int, bool> l in Fights)
+            {
+                if (!l.Value)
+                {
+                    losses++;
+                }
+            }
+
+            return losses;
+        }
+
+        private static string Stats()
+        {
+            return $"Fights: {GetFights()}\nWins: {GetWins()}\nLosses: {GetLosses()}";
         }
 
         public static void StartGame()
