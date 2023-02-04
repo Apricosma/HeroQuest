@@ -10,7 +10,12 @@ namespace GameAssignment
 {
     public static class Game
     {
+        private static HashSet<Weapon> Weapons = new HashSet<Weapon>();
+        private static HashSet<Armor> Armors = new HashSet<Armor>();
+
         private static Hero hero = new Hero();
+        public static Weapon TerribadDagger = new Weapon("Terribad Dagger", 1.5);
+        public static Armor MiniatureShield = new Armor("Miniature Shield", 0.4, 1.2);
 
         private static void setHeroName()
         {
@@ -33,6 +38,8 @@ namespace GameAssignment
                 } else
                 {
                     hero.HeroName = playerName;
+                    hero.EquipWeapon(_terribadDagger);
+                    hero.EquipArmor(_miniatureShield);
                     return;
                 }
             }
@@ -41,7 +48,7 @@ namespace GameAssignment
 
         private static void GameMenu()
         {
-            Console.WriteLine("1. New Game | 2. Continue(NYI) | 3. Quit");
+            Console.WriteLine("1. Statistics | 2. Inventory | 3. Fight");
             
             while(true)
             {
@@ -63,19 +70,42 @@ namespace GameAssignment
                 switch(selection)
                 {
                     case 1:
-                        Console.WriteLine($"Starting game, {hero.HeroName}.");
-                        // start the game
+                        // statistics
                         break;
                     case 2:
-                        Console.WriteLine("Not yet implemented");
-                        // continue where left off
-                        return;
+                        // 
+                        break;
                     case 3:
-                        // quit the game
-                        Console.WriteLine("Thanks for playing");
-                        return;
+                        Console.WriteLine("Good luck, {hero.HeroName}");
+                        break;
                         
                 }
+            }
+        }
+
+        private static void StashWeapon(Weapon weapon)
+        {
+            Weapons.Add(weapon);
+        }
+
+        private static void StashArmor(Armor armor)
+        {
+            Armors.Add(armor);
+        }
+
+        private static void GetAllWeapons()
+        {
+            foreach (Weapon w in Weapons)
+            {
+                Console.WriteLine($"{w.WeaponName} | {w.WeaponPower}");
+            }
+        }
+
+        private static void GetAllArmors() 
+        {
+            foreach (Armor a in Armors)
+            {
+                Console.WriteLine($"{a.WeaponName} | {a.WeaponPower} | ");
             }
         }
 
