@@ -17,6 +17,8 @@ namespace GameAssignment
         public static Weapon TerribadDagger = new Weapon("Terribad Dagger", 1.5);
         public static Armor MiniatureShield = new Armor("Miniature Shield", 0.4, 1.2);
 
+        
+
         private static void setHeroName()
         {
             string gameIntro = "You find yourself weightless, assaulted by a nigh divine brilliance of searing light" +
@@ -38,8 +40,15 @@ namespace GameAssignment
                 } else
                 {
                     hero.HeroName = playerName;
-                    hero.EquipWeapon(_terribadDagger);
-                    hero.EquipArmor(_miniatureShield);
+                    hero.EquipWeapon(TerribadDagger);
+                    Weapons.Add(TerribadDagger);
+
+                    hero.EquipArmor(MiniatureShield);
+                    Armors.Add(MiniatureShield);
+
+                    // for inventory testing
+                    Weapon Fists = new Weapon("Fists", 0.8);
+                    Weapons.Add(Fists);
                     return;
                 }
             }
@@ -48,10 +57,10 @@ namespace GameAssignment
 
         private static void GameMenu()
         {
-            Console.WriteLine("1. Statistics | 2. Inventory | 3. Fight");
-            
+           
             while(true)
             {
+                Console.WriteLine("1. Statistics | 2. Inventory | 3. Fight");
                 int selection;
                 string input = Console.ReadLine();
 
@@ -73,7 +82,8 @@ namespace GameAssignment
                         // statistics
                         break;
                     case 2:
-                        // 
+                        // inventory
+                        DisplayInventoryMenu();
                         break;
                     case 3:
                         Console.WriteLine("Good luck, {hero.HeroName}");
@@ -93,11 +103,47 @@ namespace GameAssignment
             Armors.Add(armor);
         }
 
+        private static void DisplayInventoryMenu()
+        {
+            Console.WriteLine("welcome to your inventory");
+
+            bool looping = true;
+
+            while(looping)
+            {
+                Console.WriteLine("1. Display all weapons | 2. Display all armor | 3. Equip a piece of gear | 4. Leave inventory");
+                int selection;
+                string input = Console.ReadLine();
+
+                if (!int.TryParse(input, out selection))
+                {
+                    Console.WriteLine("Invalid input. Only enter numbers");
+                    continue;
+                }
+
+                switch (selection)
+                {
+                    case 1:
+                        GetAllWeapons();
+                        break;
+                    case 2:
+                        GetAllArmors();
+                        break;
+                    case 3:
+                        ChangeEquippedItem();
+                        break;
+                    case 4:
+                        looping = false;
+                        return;
+                }
+            }
+        }
+
         private static void GetAllWeapons()
         {
             foreach (Weapon w in Weapons)
             {
-                Console.WriteLine($"{w.WeaponName} | {w.WeaponPower}");
+                Console.WriteLine($"{w.Name} | Power: {w.Power}");
             }
         }
 
@@ -105,7 +151,74 @@ namespace GameAssignment
         {
             foreach (Armor a in Armors)
             {
-                Console.WriteLine($"{a.WeaponName} | {a.WeaponPower} | ");
+                Console.WriteLine($"{a.Name} | Power: {a.Power} | Armor: {a.ArmorValue}");
+            }
+        }
+
+        private static void ChangeEquippedItem()
+        {
+            bool looping = true;
+
+            while(looping)
+            {
+                Console.WriteLine("1. Change weapon | 2. Change armor | 3. Return to Inventory");
+                int selection;
+                string input = Console.ReadLine();
+
+                if (!int.TryParse(input, out selection))
+                {
+                    Console.WriteLine("Invalid input. Only enter numbers");
+                    continue;
+                }
+
+                switch (selection)
+                {
+                    case 1:
+                        GetAllWeapons();
+                        ChangeEquippedWeapon();
+                        break;
+                    case 2:
+                        GetAllArmors();
+                        ChangeEquippedArmor();
+                        break;
+                    case 3:
+                        DisplayInventoryMenu();
+                        return;
+                }
+            }
+        }
+
+        private static void ChangeEquippedWeapon()
+        {
+            Console.WriteLine("Enter the name of the weapon you want to equip");
+            string weaponName = Console.ReadLine();
+
+            Weapon weapon = Weapons.FirstOrDefault(w => w.Name == weaponName);
+            if (weapon == hero.EquippedWeapon)
+            {
+                Console.WriteLine("You already have that weapon equipped");
+                return;
+            }
+            if (weapon != null)
+            {
+                hero.EquipWeapon(weapon);
+                Console.WriteLine($"{hero.HeroName} equipped {weapon.Name}");
+            } else
+            {
+                Console.WriteLine("You don't own that weapon! Make sure you've typed the name correctly");
+            }
+        }
+
+        private static void ChangeEquippedArmor()
+        {
+            Console.WriteLine("Enter the name of the armor you want to equip");
+            string armorName = Console.ReadLine();
+
+            Armor armor = Armors.FirstOrDefault(a => a.Name == armorName);
+            if (armor != null)
+            {
+                hero.EquipArmor(armor);
+                Console.WriteLine($"{hero.HeroName} equipped {armor.Name}");
             }
         }
 
