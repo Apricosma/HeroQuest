@@ -12,12 +12,16 @@ namespace GameAssignment
     {
         private static HashSet<Weapon> Weapons = new HashSet<Weapon>();
         private static HashSet<Armor> Armors = new HashSet<Armor>();
+        private static HashSet<Monster> Monsters = new HashSet<Monster>
+        {
+            new Monster("Bloopy Slime", 0.8, 0.8, 6),
+            new Monster("Shy Goblin", 1.2, 0.4, 10),
+            new Monster("Sturdy Kobold", 1.6, 3, 18)
+        };
 
-        private static Hero hero = new Hero();
+        private static Hero hero = new Hero(null, 4, 2, 10);
         public static Weapon TerribadDagger = new Weapon("Terribad Dagger", 1.5);
-        public static Armor MiniatureShield = new Armor("Miniature Shield", 0.4, 1.2);
-
-        
+        public static Armor MiniatureShield = new Armor("Miniature Shield", 0.4, 1.2);    
 
         private static void setHeroName()
         {
@@ -39,7 +43,7 @@ namespace GameAssignment
                     playerName = Console.ReadLine();
                 } else
                 {
-                    hero.HeroName = playerName;
+                    hero.Name = playerName;
                     hero.EquipWeapon(TerribadDagger);
                     Weapons.Add(TerribadDagger);
 
@@ -202,7 +206,7 @@ namespace GameAssignment
             if (weapon != null)
             {
                 hero.EquipWeapon(weapon);
-                Console.WriteLine($"{hero.HeroName} equipped {weapon.Name}");
+                Console.WriteLine($"{hero.Name} equipped {weapon.Name}");
             } else
             {
                 Console.WriteLine("You don't own that weapon! Make sure you've typed the name correctly");
@@ -218,8 +222,17 @@ namespace GameAssignment
             if (armor != null)
             {
                 hero.EquipArmor(armor);
-                Console.WriteLine($"{hero.HeroName} equipped {armor.Name}");
+                Console.WriteLine($"{hero.Name} equipped {armor.Name}");
             }
+        }
+
+        public static Monster GetRandomMonster()
+        {
+            Random random = new Random();
+            int index = random.Next(0, Monsters.Count);
+
+            Monster randomMonster = Monsters.ElementAt(index);
+            return randomMonster;
         }
 
         public static void StartGame()

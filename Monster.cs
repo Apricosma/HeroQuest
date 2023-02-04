@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameAssignment
 {
-    public class Monster
+    public class Monster : Hero
     {
+        public Monster(string name, double strength, double defence, double maxHealth ) : base(name, strength, defence, maxHealth) 
+        {
+
+        }
     }
 }

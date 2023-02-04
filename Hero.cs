@@ -8,28 +8,28 @@ namespace GameAssignment
 {
     public class Hero
     {
-        private string _heroName;
-        public string HeroName 
+        private string _name;
+        public string Name 
         { 
-            get { return _heroName; }
-            set { _heroName = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
-        private double _baseStrength = 4;
+        private double _baseStrength;
         public double BaseStrength 
         { 
             get { return _baseStrength; }
             set { _baseStrength = value; } // for powering up
         }
 
-        private double _baseDefence = 2;
+        private double _baseDefence;
         public double BaseDefence
         {
             get { return _baseDefence; }
             set { _baseDefence = value; }
         }
 
-        private double _maxHealth = 10;
+        private double _maxHealth;
         public double MaxHealth
         {
             get { return _maxHealth; }
@@ -39,7 +39,12 @@ namespace GameAssignment
             }
         }
 
-        private int _currentHealth;
+        private double _currentHealth;
+        public double CurrentHealth 
+        { 
+            get { return _currentHealth; }
+            set { _currentHealth = value; }
+        }
 
         private Weapon _equippedWeapon;
         public Weapon EquippedWeapon { get { return _equippedWeapon; } }
@@ -55,9 +60,13 @@ namespace GameAssignment
             _equippedArmor = armor;
         }
 
-        public Hero()
+        public Hero(string name, double strength, double defence, double maxHealth)
         {
-            HeroName = null;
+            Name = null;
+            BaseStrength = strength;
+            BaseDefence = defence;
+            MaxHealth = maxHealth;
+            CurrentHealth = maxHealth;
         }
     }
 }
