@@ -1,2 +1,17 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace GameAssignment 
+{ 
+    class Program
+    {
+        static void Main(String[] args)
+        {
+            try
+            {
+                Game.StartGame();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
