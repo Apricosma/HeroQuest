@@ -24,7 +24,7 @@ namespace GameAssignment
             Console.WriteLine();
             while (_hero.CurrentHealth > 0 && Monster.CurrentHealth > 0) 
             {
-                //Thread.Sleep(2000);
+                Thread.Sleep(2000);
                 HeroTurn();
                 Console.WriteLine($"{_hero.Name} HP: {_hero.CurrentHealth} | {Monster.Name} HP: {Monster.CurrentHealth}");
                 if (Monster.CurrentHealth <= 0)
@@ -34,7 +34,7 @@ namespace GameAssignment
                 }
                 Console.WriteLine();
 
-                //Thread.Sleep(2000);
+                Thread.Sleep(2000);
                 MonsterTurn();
                 Console.WriteLine($"{_hero.Name} HP: {_hero.CurrentHealth} | {Monster.Name} HP: {Monster.CurrentHealth}");
                 if (_hero.CurrentHealth <= 0)
@@ -67,11 +67,11 @@ namespace GameAssignment
         {
             double damage = Math.Round(Monster.BaseStrength - (_hero.BaseDefence + _hero.EquippedArmor.Power), 2);
             damage *= RandomMultiplier();
-            Console.WriteLine($"{Monster.Name} deals {damage} to {_hero.Name}");
+            
 
             if (damage > 0)
             {
-                Console.WriteLine($"{_hero.Name} deals {damage} to {Monster.Name}");
+                Console.WriteLine($"{Monster.Name} deals {damage} to {_hero.Name}");
                 _hero.CurrentHealth -= damage;
             } else
             {

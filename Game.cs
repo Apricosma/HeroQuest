@@ -30,7 +30,7 @@ namespace GameAssignment
             new Monster("Shy Goblin", 3, 0.4, 10, goblinText, 5),
             new Monster("Sturdy Kobold", 4, 3, 18, koboldText, 7),
             new Monster("Ferocious Orc", 6, 0.5, 22, orcText, 10),
-            new Monster("A scrungus", 2, 4, 20, scrungusText, 40)
+            new Monster("A scrungus", 2, 4, 20, scrungusText, 20)
 
         };
 
@@ -44,12 +44,12 @@ namespace GameAssignment
         private static void setHeroName()
         {
             string gameIntro = "You find yourself weightless, assaulted by a nigh divine brilliance of searing light" +
-                "\nWhat happened? You remember nothing of what you were doing an instant ago, a serene sort of forgetfullness filling your mind." +
-
-                "\nThe blistering light gradually begins to fade away as you vision hazes to. You feel your feet make contact with the ground," +
-                "and the inescapable, familiar sensation of gravity take hold of you once more." +
-                "\nWithin your hand lays a shoddy dagger in disrepair, and your other, a shield barely larger than a book." +
-                "\nThe only thing you remember is your name. What may it be, champion?";
+                "\nWhat happened? You remember nothing of what you were doing an instant ago, a serene" +
+                "\nsort of forgetfullness filling your mind." +
+                "\n\nThe blistering light gradually begins to fade away as you vision hazes to. You feel" +
+                "\nyour feet make contact with the ground, and the inescapable, familiar sensation of gravity take hold of you once more." +
+                "\n\nWithin your hand lays a shoddy dagger in disrepair, and your other, a shield barely larger than a book." +
+                "\n\nThe only thing you remember is your name. What may it be, champion?";
 
             Console.WriteLine(gameIntro);
             string playerName = Console.ReadLine();
