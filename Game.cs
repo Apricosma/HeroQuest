@@ -343,6 +343,8 @@ namespace GameAssignment
 
                 switch (selection)
                 {
+                    // I know there has to be some way to make this better, but I'm not sure how.
+                    // Maybe delegates? 
                     case 1:
                         if (hero.Coins >= upgradeCosts.PowerCost)
                         {
