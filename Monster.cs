@@ -36,10 +36,19 @@ namespace GameAssignment
             return weapon;
         }
 
-        public Monster(string name, double strength, double defence, double maxHealth, string flavorText ) : base(name, strength, defence, maxHealth) 
+        private double _dropCoins;
+        public double DropCoins { get { return _dropCoins; } }
+
+        public Monster(string name,
+            double strength,
+            double defence,
+            double maxHealth,
+            string flavorText,
+            double dropCoins ) : base(name, strength, defence, maxHealth) 
         {
             Name = name;
             FlavorText = flavorText;
+            _dropCoins = dropCoins;
         }
     }
 }

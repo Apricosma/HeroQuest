@@ -83,7 +83,9 @@ namespace GameAssignment
         private void Win()
         {
             Console.WriteLine("The hero wins");
+            Console.WriteLine($"The monster drops {Monster.DropCoins} coins");
             ResetHealth();
+            _hero.Coins += Monster.DropCoins;
         }
 
         private void Lose()

@@ -60,6 +60,13 @@ namespace GameAssignment
             _equippedArmor = armor;
         }
 
+        private double _coins;
+        public double Coins
+        {
+            get { return _coins; }
+            set { _coins = value; }
+        }
+
         public string GetStats()
         {
             return $"Power: {BaseStrength} | Defence: {BaseDefence} | Current health: {CurrentHealth}/{MaxHealth}";

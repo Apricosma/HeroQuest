@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -25,11 +26,11 @@ namespace GameAssignment
         private static Dictionary<int, bool> Fights = new Dictionary<int, bool>();
         private static HashSet<Monster> Monsters = new HashSet<Monster>
         {
-            new Monster("Bloopy Slime", 2.5, 0.8, 13, slimeText),
-            new Monster("Shy Goblin", 3, 0.4, 10, goblinText),
-            new Monster("Sturdy Kobold", 4, 3, 18, koboldText),
-            new Monster("Ferocious Orc", 6, 0.5, 22, orcText),
-            new Monster("A scrungus", 2, 4, 20, scrungusText)
+            new Monster("Bloopy Slime", 2.5, 0.8, 13, slimeText, 3),
+            new Monster("Shy Goblin", 3, 0.4, 10, goblinText, 5),
+            new Monster("Sturdy Kobold", 4, 3, 18, koboldText, 7),
+            new Monster("Ferocious Orc", 6, 0.5, 22, orcText, 10),
+            new Monster("A scrungus", 2, 4, 20, scrungusText, 40)
 
         };
 
@@ -37,7 +38,8 @@ namespace GameAssignment
 
         private static Hero hero = new Hero(null, 4, 2, 10);
         public static Weapon TerribadDagger = new Weapon("Terribad Dagger", 1);
-        public static Armor MiniatureShield = new Armor("Miniature Shield", 0.4, 1.2);    
+        public static Armor MiniatureShield = new Armor("Miniature Shield", 0.4, 1.2);
+        public static Upgrades upgradeCosts = new Upgrades();
 
         private static void setHeroName()
         {
@@ -119,10 +121,14 @@ namespace GameAssignment
 
                             Fights.Add(_fightCounter, true);
                             _fightCounter++;
+
+                            UpgradeStats();
                         } else
                         {
                             Fights.Add(_fightCounter, false);
                             _fightCounter++;
+
+                            UpgradeStats();
                         }
 
                         break;
@@ -311,6 +317,75 @@ namespace GameAssignment
         private static string Stats()
         {
             return $"Fights: {GetFights()}\nWins: {GetWins()}\nLosses: {GetLosses()}";
+        }
+
+        private static void UpgradeStats()
+        {
+
+            
+            bool looping = true;
+
+            while (looping)
+            {
+                Console.WriteLine($"You have: ${Math.Round(hero.Coins, 2)}");
+                Console.WriteLine($"1. Upgrade power (${Math.Round(upgradeCosts.PowerCost, 2)}) |" +
+                                $" 2. Upgrade defence (${Math.Round(upgradeCosts.DefenceCost, 2)})|" +
+                                $" 3. Upgrade max health (${Math.Round(upgradeCosts.HealthCost, 2)})|" +
+                                $" 4. Leave");
+                int selection;
+                string input = Console.ReadLine();
+
+                if (!int.TryParse(input, out selection))
+                {
+                    Console.WriteLine("Invalid input. Only enter numbers");
+                    continue;
+                }
+
+                switch (selection)
+                {
+                    case 1:
+                        if (hero.Coins >= upgradeCosts.PowerCost)
+                        {
+                            hero.Coins -= upgradeCosts.PowerCost;
+                            Console.WriteLine($"{hero.Name} gained {hero.BaseStrength * 1.10 - hero.BaseStrength} power.");
+                            hero.BaseStrength = hero.BaseStrength * 1.10;
+                            upgradeCosts.UpdatePowerCost();
+                        } else
+                        {
+                            Console.WriteLine("You cannot afford that!");
+                        }
+                        break;
+                    case 2:
+                        if (hero.Coins >= upgradeCosts.DefenceCost)
+                        {
+                            hero.Coins -= upgradeCosts.DefenceCost;
+                            Console.WriteLine($"{hero.Name} gained {hero.BaseDefence * 1.10 - hero.BaseDefence} defence.");
+                            hero.BaseDefence = hero.BaseDefence * 1.10;
+                            upgradeCosts.UpdateDefenceCost();
+                        }
+                        else
+                        {
+                            Console.WriteLine("You cannot afford that!");
+                        }
+                        break;
+                    case 3:
+                        if (hero.Coins >= upgradeCosts.HealthCost)
+                        {
+                            hero.Coins -= upgradeCosts.HealthCost;
+                            Console.WriteLine($"{hero.Name} gained {hero.MaxHealth * 1.10 - hero.MaxHealth} health.");
+                            hero.MaxHealth = hero.MaxHealth * 1.10;
+                            upgradeCosts.UpdateHealthCost();
+                        }
+                        else
+                        {
+                            Console.WriteLine("You cannot afford that!");
+                        }
+                        break;
+                    case 4:
+                        return;
+
+                }
+            }
         }
 
         public static void StartGame()
